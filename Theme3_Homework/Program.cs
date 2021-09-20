@@ -66,27 +66,33 @@ namespace Theme3_Homework
                 Console.WriteLine("Введите имя второго игрока:");
                 username2 = Console.ReadLine();
 
-                int gameNumber = rand.Next(12, 121);         //компьютер загадывает число
+                int gameNumber = rand.Next(12, 20);         //компьютер загадывает число
                 Console.WriteLine($"Компьютер загадал число {gameNumber}");
 
                 while (gameNumber >= 0)
                 {
                     //Ход 1 игрока
+
                     Console.WriteLine($"**Игрок {username1} выбирает число:");
+
+                    //ввод числа до тех пор, пока не введено "правильное" число
                     do
                     {
                         userTry1 = Convert.ToInt32(Console.ReadLine());
                     }
-                    while (CheckNumber(userTry1) == false);
-                    gameNumber = gameNumber - userTry1;
+                    while (CheckNumber(userTry1) == false); 
+
+                    gameNumber = gameNumber - userTry1;          //вычитание согласно правилам
                     Console.WriteLine($"\t\t GameNumber = {gameNumber}\n");
-                    if (CheckGameNumber(gameNumber) == 1)
+
+                    //Проверка на предмет выигрыша
+                    if (CheckGameNumber(gameNumber) == 1)       //CheckGameNumber ==1  -- победа
                     {
                         Console.WriteLine($"Поздравляю игрока {username1}!! Если хотите сыграть еще раз, введите '1':");
                         otvet = Convert.ToInt32(Console.ReadLine());
                         break;
                     }
-                    else if (CheckGameNumber(gameNumber) == 2)
+                    else if (CheckGameNumber(gameNumber) == 2)   //CheckGameNumber ==2  -- ничья
                     {
                         Console.WriteLine($"Если хотите сыграть еще раз, введите '1':");
                         otvet = Convert.ToInt32(Console.ReadLine());
@@ -94,22 +100,28 @@ namespace Theme3_Homework
                     }
 
 
-                        //Ход 2 игрока
-                        Console.WriteLine($"**Игрок {username2} выбирает число:");
+                    //Ход 2 игрока
+
+                    Console.WriteLine($"**Игрок {username2} выбирает число:");
+
+                    //ввод числа до тех пор, пока не введено "правильное" число
                     do
                     {
                         userTry2 = Convert.ToInt32(Console.ReadLine());
                     }
                     while (CheckNumber(userTry2) == false);
-                    gameNumber = gameNumber - userTry2;
+
+                    gameNumber = gameNumber - userTry2;                 //вычитание согласно правилам
                     Console.WriteLine($"GameNumber = {gameNumber}\n");
-                    if (CheckGameNumber(gameNumber) == 1)
+
+                    //Проверка на предмет выигрыша
+                    if (CheckGameNumber(gameNumber) == 1)               //CheckGameNumber ==1  -- победа
                     {
-                        Console.WriteLine($"Поздравляю игрока {username1}!! Если хотите сыграть еще раз, введите '1':");
+                        Console.WriteLine($"Поздравляю игрока {username2}!! Если хотите сыграть еще раз, введите '1':");
                         otvet = Convert.ToInt32(Console.ReadLine());
                         break;
                     }
-                    else if (CheckGameNumber(gameNumber) == 2)
+                    else if (CheckGameNumber(gameNumber) == 2)          //CheckGameNumber ==2  -- ничья
                     {
                         Console.WriteLine($"Если хотите сыграть еще раз, введите '1':");
                         otvet = Convert.ToInt32(Console.ReadLine());
@@ -118,7 +130,7 @@ namespace Theme3_Homework
                 }
 
 
-            } while (otvet == 1);
+            } while (otvet == 1); //прдолжать, если после окончания игры вводят "1"
 
             Console.WriteLine("ИГРА ОКОНЧЕНА");
 
