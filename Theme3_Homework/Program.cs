@@ -6,10 +6,7 @@ namespace Theme3_Homework
     {
         static void Main(string[] args)
         {
-            //Задание 1.Создание игры на два игрока
-
-
-            //Что нужно сделать
+            
             //Разработайте простую игру на два игрока.Правила игры:
 
             //Загадывается число от 12 до 120, причём случайным образом.Назовём его gameNumber.
@@ -27,7 +24,10 @@ namespace Theme3_Homework
             //и минимально возможного значения для userTry. 
             //Помимо добавления уровней сложности вы можете добавить возможность играть в неё трём, четырём или пяти игрокам.
 
-                        /* РЕШЕНИЕ */
+            //Так как не всегда удаётся найти второго игрока, предусмотрите возможность игры с компьютером. Причём компьютер
+            //может быть как лёгкий, которого совсем просто обыграть, так и сложный, для победы над которым игроку придётся подумать.
+
+            /* РЕШЕНИЕ */
             Random rand = new Random();
             int gameNumber=4;
             int otvet = 0;
@@ -55,7 +55,7 @@ namespace Theme3_Homework
                 //заполняем массив именами игроков
                 for (int i = 0; i < playerName.Length; i++)
                 {
-                    Console.WriteLine($"\nВведите имя {i+1} игрока:") ;
+                    Console.WriteLine($"\nВведите имя {i+1} игрока. cEasy - легкий компьютер, cHard - сложный компьютер:") ;
                     playerName[i] = Console.ReadLine();
                 }
 
@@ -127,13 +127,31 @@ namespace Theme3_Homework
                     {
                         Console.WriteLine($"**Игрок {playerName[j]} выбирает число:");
 
-                        //ввод числа до тех пор, пока не введено "правильное" число
-                        do
+                        //Если комп легкий
+                        if (playerName[j].Equals("cEasy"))
                         {
-                            userTry = Convert.ToInt32(Console.ReadLine());
+                            userTry = rand.Next(userTryMin, userTryMax);
+                            Console.WriteLine($"Компьютер выбрал число {userTry}");
+
                         }
-                        //+проверка, что userTry в нужном диапазоне, и что оно не больше чем оставшееся gameNumber
-                        while (CheckNumber(userTry,userTryMin,userTryMax) == false || CheckNumber(userTry,0,gameNumber)==false);   
+                        //Если комп сложный
+                        else if(playerName[j].Equals("cHard"))
+                        {
+                            //Если комп может завершить игру 1 ходом, то он выигрывает
+                            if (gameNumber<=userTryMax) userTry = gameNumber;
+                            else userTry = rand.Next(userTryMin, userTryMax);
+                            Console.WriteLine($"Компьютер выбрал число {userTry}");
+                        }
+                        //Если человек: ввод числа до тех пор, пока не введено "правильное" число
+                        else
+                        {
+                            do
+                            {
+                                userTry = Convert.ToInt32(Console.ReadLine());
+                            }
+                            //+проверка, что userTry в нужном диапазоне, и что оно не больше чем оставшееся gameNumber
+                            while (CheckNumber(userTry, userTryMin, userTryMax) == false || CheckNumber(userTry, 0, gameNumber) == false);
+                        }
 
                         gameNumber = gameNumber - userTry;          //вычитание согласно правилам
                         Console.WriteLine($"\t\t --->GameNumber = {gameNumber}<---\n");
