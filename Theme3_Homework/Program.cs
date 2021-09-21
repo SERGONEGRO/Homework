@@ -66,7 +66,7 @@ namespace Theme3_Homework
                 Console.WriteLine("Введите имя второго игрока:");
                 username2 = Console.ReadLine();
 
-                int gameNumber = rand.Next(12, 20);         //компьютер загадывает число
+                int gameNumber = rand.Next(12, 120);         //компьютер загадывает число
                 Console.WriteLine($"Компьютер загадал число {gameNumber}");
 
                 while (gameNumber >= 0)
@@ -80,7 +80,10 @@ namespace Theme3_Homework
                     {
                         userTry1 = Convert.ToInt32(Console.ReadLine());
                     }
-                    while (CheckNumber(userTry1) == false); 
+                    while (CheckNumber(userTry1) == false);
+
+                    //+проверка, что userTry в нужном диапазоне, и что оно не больше чем оставшееся gameNumber
+                    //while (CheckNumber(userTry, userTryMin, userTryMax) == false || CheckNumber(userTry, 0, gameNumber) == false) ;
 
                     gameNumber = gameNumber - userTry1;          //вычитание согласно правилам
                     Console.WriteLine($"\t\t GameNumber = {gameNumber}\n");
