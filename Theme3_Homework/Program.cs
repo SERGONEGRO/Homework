@@ -30,18 +30,17 @@ namespace Theme3_Homework
                         /* РЕШЕНИЕ */
             Random rand = new Random();
             int gameNumber=4;
-            string username1;
-            string username2;
             int otvet = 0;
             int gameNumberMin=12 ; int gameNumberMax=120;
-            int playersCount=2;
-            string[] playerName = new string[playersCount]; //массив с именами игроков, по умолчанию 2 значения
-            int[] userTry = new int[playersCount];          //массив с числами игроков, по умолчанию 2 значаения
+            int playersCount;                             //число игроков, по умолчанию 2
+            int userTry;
+            int userTryMin = 1; int userTryMax = 4;       //диапазон UserTry по умолчанию 
             int mode;         //режим игры
            
 
-            //Начало Игры
+                                        
             do
+                                    /*задание правил игры*/
             {
                 //Ввод количества игроков и проверка, что игроков 2-5
                 Console.WriteLine("\nВведите Количество игроков (от 2 до 5)");
@@ -50,6 +49,8 @@ namespace Theme3_Homework
                     playersCount = Convert.ToInt32(Console.ReadLine());
                 }
                 while (CheckNumber(playersCount,2,5) == false);
+
+                string[] playerName = new string[playersCount]; //массив с именами игроков, по умолчанию 2 значения
 
                 //заполняем массив именами игроков
                 for (int i = 0; i < playerName.Length; i++)
@@ -71,91 +72,88 @@ namespace Theme3_Homework
                 if (mode==1) gameNumber = rand.Next(12, 121);           //компьютер загадывает число
                 else if (mode == 2)                                     // режим задания диапазона
                 {
-                    Console.WriteLine("Задайте минимальное значение ( от 4 до 150):");
+                    Console.WriteLine("Задайте минимальное значение ( от 4 до 120):");
                     do
                     {
                         gameNumberMin = Convert.ToInt32(Console.ReadLine());
                     }
-                    while (CheckNumber(gameNumberMin, 4, 150) == false);
-                    Console.WriteLine("Задайте Максимальное значение ( от 5 до 150):");
+                    while (CheckNumber(gameNumberMin, 4, 120) == false);
+                    Console.WriteLine("Задайте Максимальное значение ( от 5 до 120):");
                     do
                     {
                         gameNumberMax = Convert.ToInt32(Console.ReadLine());
                     }
-                    while (CheckNumber(gameNumberMax, 5, 150) == false);
+                    while (CheckNumber(gameNumberMax, 5, 120) == false);
+                    gameNumber = rand.Next(gameNumberMin, gameNumberMax);    //задание числа в нужном диапазоне
                 }
                 else                                                         //режим задания числа руками
                 {
-                    Console.WriteLine("Задайте число ( от 4 до 150):");
+                    Console.WriteLine("Задайте число ( от 4 до 120):");
                     do
                     {
                         gameNumber = Convert.ToInt32(Console.ReadLine());
                     }
-                    while (CheckNumber(gameNumber, 4, 150) == false);
+                    while (CheckNumber(gameNumber, 4, 120) == false);
                 }
-                
 
-                
-
-                while (gameNumber >= 0)
+                //Если нужно задать интервал Usertry:
+                Console.WriteLine("Если нужно задать диапазон userTry, введите 'да':");
+                string otvetDiapazon = Console.ReadLine();
+                if (otvetDiapazon == "да")
                 {
-                    for (int j=0, j<playersCount;j++)
-                    //Ход 1 игрока
-
-                    Console.WriteLine($"**Игрок {username1} выбирает число:");
-
-                    //ввод числа до тех пор, пока не введено "правильное" число
+                    Console.WriteLine("Введите минимальное значение UserTry (от 1 до 4):");
                     do
                     {
-                        userTry1 = Convert.ToInt32(Console.ReadLine());
+                        userTryMin = Convert.ToInt32(Console.ReadLine());
                     }
-                    while (CheckNumber(userTry1) == false); 
-
-                    gameNumber = gameNumber - userTry1;          //вычитание согласно правилам
-                    Console.WriteLine($"\t\t GameNumber = {gameNumber}\n");
-
-                    //Проверка на предмет выигрыша
-                    if (CheckGameNumber(gameNumber) == 1)       //CheckGameNumber ==1  -- победа
-                    {
-                        Console.WriteLine($"Поздравляю игрока {username1}!! Если хотите сыграть еще раз, введите '1':");
-                        otvet = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    }
-                    else if (CheckGameNumber(gameNumber) == 2)   //CheckGameNumber ==2  -- ничья
-                    {
-                        Console.WriteLine($"Если хотите сыграть еще раз, введите '1':");
-                        otvet = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    }
-
-
-                    //Ход 2 игрока
-
-                    Console.WriteLine($"**Игрок {username2} выбирает число:");
-
-                    //ввод числа до тех пор, пока не введено "правильное" число
+                    while (CheckNumber(userTryMin, 1, 4) == false);
+                    Console.WriteLine("Введите Максимальное значение UserTry (от 5 до 10):");
                     do
                     {
-                        userTry2 = Convert.ToInt32(Console.ReadLine());
+                        userTryMax = Convert.ToInt32(Console.ReadLine());
                     }
-                    while (CheckNumber(userTry2) == false);
+                    while (CheckNumber(userTryMax, 5, 10) == false);
+                }
 
-                    gameNumber = gameNumber - userTry2;                 //вычитание согласно правилам
-                    Console.WriteLine($"GameNumber = {gameNumber}\n");
+                PrintRules(gameNumberMin, gameNumberMax, playersCount);      //печать правил
+                Console.WriteLine($"\t\t --->GameNumber = {gameNumber}<---\n");
 
-                    //Проверка на предмет выигрыша
-                    if (CheckGameNumber(gameNumber) == 1)               //CheckGameNumber ==1  -- победа
+
+                /*Начало игры*/
+
+                while (gameNumber > 0)
+                {
+                    for (int j = 0; j < playersCount; j++)
                     {
-                        Console.WriteLine($"Поздравляю игрока {username2}!! Если хотите сыграть еще раз, введите '1':");
-                        otvet = Convert.ToInt32(Console.ReadLine());
-                        break;
+                        Console.WriteLine($"**Игрок {playerName[j]} выбирает число:");
+
+                        //ввод числа до тех пор, пока не введено "правильное" число
+                        do
+                        {
+                            userTry = Convert.ToInt32(Console.ReadLine());
+                        }
+                        //+проверка, что userTry в нужном диапазоне, и что оно не больше чем оставшееся gameNumber
+                        while (CheckNumber(userTry,userTryMin,userTryMax) == false || CheckNumber(userTry,0,gameNumber)==false);   
+
+                        gameNumber = gameNumber - userTry;          //вычитание согласно правилам
+                        Console.WriteLine($"\t\t --->GameNumber = {gameNumber}<---\n");
+
+                        //Проверка на предмет выигрыша
+                        if (CheckGameNumber(gameNumber) == 1)       //CheckGameNumber ==1  -- победа
+                        {
+                            Console.WriteLine($"Поздравляю игрока {playerName[j]}!! Если хотите сыграть еще раз, введите '1':");
+                            otvet = Convert.ToInt32(Console.ReadLine());
+                            break;
+                        }
+                        else if (CheckGameNumber(gameNumber) == 2)   //CheckGameNumber ==2  -- ничья
+                        {
+                            Console.WriteLine($"Если хотите сыграть еще раз, введите '1':");
+                            otvet = Convert.ToInt32(Console.ReadLine());
+                            break;
+                        }
                     }
-                    else if (CheckGameNumber(gameNumber) == 2)          //CheckGameNumber ==2  -- ничья
-                    {
-                        Console.WriteLine($"Если хотите сыграть еще раз, введите '1':");
-                        otvet = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    }
+
+                    
                 }
 
 
@@ -178,8 +176,8 @@ namespace Theme3_Homework
             /// </summary>
             int CheckGameNumber(int gamenumber1)
             {
-                if (gamenumber > 0) return 0;
-                else if (gamenumber == 0) { Console.WriteLine("ПОБЕДА!!!"); return 1; }
+                if (gamenumber1 > 0) return 0;
+                else if (gamenumber1 == 0) { Console.WriteLine("ПОБЕДА!!!"); return 1; }
                 else { Console.WriteLine("НИЧЬЯ :("); return 2; }
             }
 
