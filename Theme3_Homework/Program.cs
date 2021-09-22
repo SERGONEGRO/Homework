@@ -23,10 +23,7 @@ namespace Theme3_Homework
 
             /* РЕШЕНИЕ */
             Random rand = new Random();
-            int userTry1;
-            int userTry2;
-            //string username1;
-            //string username2;
+            int userTry;
             int otvet=0;
             int playersCount = 2;   //количество игроков
 
@@ -59,7 +56,7 @@ namespace Theme3_Homework
 
             //Начало Игры
             do
-            {
+            {       /*-------Задание параметров игры------------*/
                 string[] playerName = new string[playersCount];   //опеределяем массив с именами игроков
 
                 //задаем имена игроков
@@ -72,80 +69,49 @@ namespace Theme3_Homework
                 int gameNumber = rand.Next(12, 120);         //компьютер загадывает число
                 Console.WriteLine($"Компьютер загадал число {gameNumber}");
 
-                while (gameNumber >= 0)
+
+                /*----------начало игры----------*/
+                while (gameNumber > 0)     // до тех пор, пока gameNumber больше нуля
                 {
-                    //Ход 1 игрока
-
-                    Console.WriteLine($"**Игрок {username1} выбирает число:");
-
-                    //ввод числа до тех пор, пока не введено "правильное" число
-                    do
+                    
+                    for (int j=0;j<playersCount;j++)      //игроки ходят по очереди
                     {
-                        userTry1 = Convert.ToInt32(Console.ReadLine());
-                    }
-                    while (CheckNumber(userTry1) == false);
+                       Console.WriteLine($"**Игрок {playerName[j]} выбирает число:");
 
-                    //+проверка, что userTry в нужном диапазоне, и что оно не больше чем оставшееся gameNumber
-                    //while (CheckNumber(userTry, userTryMin, userTryMax) == false || CheckNumber(userTry, 0, gameNumber) == false) ;
+                        //ввод числа до тех пор, пока не введено "правильное" число
+                        do
+                        {
+                            userTry = Convert.ToInt32(Console.ReadLine());
+                        }
+                        while (CheckNumber(userTry) == false);
 
-                    gameNumber = gameNumber - userTry1;          //вычитание согласно правилам
-                    Console.WriteLine($"\t\t GameNumber = {gameNumber}\n");
+                        //вычитание согласно правилам
+                        gameNumber = gameNumber - userTry;         
+                        Console.WriteLine($"\t\t GameNumber = {gameNumber}\n");
 
-                    //Проверка на предмет выигрыша
-                    if (CheckGameNumber(gameNumber) == 1)       //CheckGameNumber ==1  -- победа
-                    {
-                        Console.WriteLine($"Поздравляю игрока {username1}!! Если хотите сыграть еще раз, введите '1':");
-                        otvet = Convert.ToInt32(Console.ReadLine());
+                        //Проверка на предмет выигрыша
+                        if (CheckGameNumber(gameNumber) == 1)       //CheckGameNumber ==1  -- победа
+                        {
+                            Console.WriteLine($"Поздравляю игрока {playerName[j]}!! Если хотите сыграть еще раз, введите '1':");
+                            otvet = Convert.ToInt32(Console.ReadLine());
+                            break;
+                        }
+                        else if (CheckGameNumber(gameNumber) == 2)   //CheckGameNumber ==2  -- ничья
+                        {
+                            Console.WriteLine($"Если хотите сыграть еще раз, введите '1':");
+                            otvet = Convert.ToInt32(Console.ReadLine());
+                            break;
+                        }
                         break;
                     }
-                    else if (CheckGameNumber(gameNumber) == 2)   //CheckGameNumber ==2  -- ничья
-                    {
-                        Console.WriteLine($"Если хотите сыграть еще раз, введите '1':");
-                        otvet = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    }
-
-
-                    //Ход 2 игрока
-
-                    Console.WriteLine($"**Игрок {username2} выбирает число:");
-
-                    //ввод числа до тех пор, пока не введено "правильное" число
-                    do
-                    {
-                        userTry2 = Convert.ToInt32(Console.ReadLine());
-                    }
-                    while (CheckNumber(userTry2) == false);
-
-                    gameNumber = gameNumber - userTry2;                 //вычитание согласно правилам
-                    Console.WriteLine($"GameNumber = {gameNumber}\n");
-
-                    //Проверка на предмет выигрыша
-                    if (CheckGameNumber(gameNumber) == 1)               //CheckGameNumber ==1  -- победа
-                    {
-                        Console.WriteLine($"Поздравляю игрока {username2}!! Если хотите сыграть еще раз, введите '1':");
-                        otvet = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    }
-                    else if (CheckGameNumber(gameNumber) == 2)          //CheckGameNumber ==2  -- ничья
-                    {
-                        Console.WriteLine($"Если хотите сыграть еще раз, введите '1':");
-                        otvet = Convert.ToInt32(Console.ReadLine());
-                        break;
-                    }
+          
                 }
-
 
             } while (otvet == 1); //прдолжать, если после окончания игры вводят "1"
 
             Console.WriteLine("ИГРА ОКОНЧЕНА");
 
-            
-
-
         }
-
-
 
     }
 }
