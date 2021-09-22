@@ -25,9 +25,10 @@ namespace Theme3_Homework
             Random rand = new Random();
             int userTry1;
             int userTry2;
-            string username1;
-            string username2;
+            //string username1;
+            //string username2;
             int otvet=0;
+            int playersCount = 2;   //количество игроков
 
             ///<summary>
             ///Функция проверки корректности числа CheckNumber
@@ -59,12 +60,14 @@ namespace Theme3_Homework
             //Начало Игры
             do
             {
+                string[] playerName = new string[playersCount];   //опеределяем массив с именами игроков
 
-                Console.WriteLine("\nВведите имя первого игрока:");
-                username1 = Console.ReadLine();
-
-                Console.WriteLine("Введите имя второго игрока:");
-                username2 = Console.ReadLine();
+                //задаем имена игроков
+                for (int i = 0;i< playersCount;i++)
+                {
+                    Console.WriteLine($"\nВведите имя {i+1} игрока:");
+                    playerName[i] = Console.ReadLine();
+                }
 
                 int gameNumber = rand.Next(12, 120);         //компьютер загадывает число
                 Console.WriteLine($"Компьютер загадал число {gameNumber}");
